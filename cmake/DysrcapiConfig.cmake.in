@@ -1,0 +1,11 @@
+# dysrcapi
+# Copyright 2026 Daynlight
+# Licensed under the GNU General.
+# See LICENSE file for details.
+
+
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+include("${CMAKE_CURRENT_LIST_DIR}/DysrcapiTargets.cmake")

@@ -1,0 +1,8 @@
+{
+  "name": "dysrcapi",
+  "version": "1.0.0",
+  "dependencies": [
+    "gtest",
+    "fmt"
+  ]
+}

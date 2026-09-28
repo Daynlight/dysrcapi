@@ -1,0 +1,9 @@
+*.swp
+*.swo
+*.tmp
+~*
+*~
+
+build/
+vendor/
+DLL/
