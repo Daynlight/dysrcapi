@@ -68,22 +68,21 @@ install(
 )
 
 configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/DysrcapiConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfig.cmake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/dysrcapiConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/dysrcapiConfig.cmake"
   INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
 
 write_basic_package_version_file(
-  "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/dysrcapiConfigVersion.cmake"
   VERSION 1.0.0
   COMPATIBILITY SameMajorVersion
 )
 
 install(
   FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfigVersion.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/dysrcapiConfig.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/dysrcapiConfigVersion.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
-
 
