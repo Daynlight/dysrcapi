@@ -64,13 +64,13 @@ install(
   EXPORT DysrcapiTargets
   FILE DysrcapiTargets.cmake
   NAMESPACE dysrcapi::
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Dysrcapi"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
 
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/DysrcapiConfig.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfig.cmake"
-  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Dysrcapi"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
 
 write_basic_package_version_file(
@@ -83,7 +83,7 @@ install(
   FILES
   "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfig.cmake"
   "${CMAKE_CURRENT_BINARY_DIR}/DysrcapiConfigVersion.cmake"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/Dysrcapi"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
 
 
