@@ -11,7 +11,7 @@ vcpkg_from_github(
 
   REF 
   SHA512 "0"
-  HEAD_REF dev
+  HEAD_REF main
 )
 
 vcpkg_cmake_configure(
@@ -21,5 +21,4 @@ vcpkg_cmake_configure(
     -DDYSRCAPI_BUILD_TESTS=OFF
 )
 
-vcpkg_check_features()
 vcpkg_cmake_install()
