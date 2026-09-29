@@ -61,8 +61,8 @@ install(
 )
 
 install(
-  EXPORT DysrcapiTargets
-  FILE DysrcapiTargets.cmake
+  EXPORT dysrcapiTargets
+  FILE dysrcapiTargets.cmake
   NAMESPACE dysrcapi::
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/dysrcapi"
 )
