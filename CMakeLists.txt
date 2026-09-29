@@ -44,7 +44,7 @@ include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 install(
-  TARGETS Dysrcapi
+  TARGETS dysrcapi
   EXPORT DysrcapiTargets
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
