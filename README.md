@@ -139,17 +139,24 @@ Project is split into sub libraries connected to ```App```.
 - [x] vcpkg port + cmake config for include in other projects.
 - [x] Basic Script for testing.
 - [x] Windows Support.
-- [x] Vcpkg setup.
-- [x] Base Docs.
+- [x] Vcpkg setup.-
+- [x] Script Controller file split.
+- [x] Update Naming.
+- [x] Update Namespace. [x] Base Docs.
+
 </details>
 
 <details open>
 <summary>(Prototype) Iteration 2. Script Controller clean up and refactor</summary>
 
-- [ ] Script Controller build in scripts provided by factory.
-- [ ] Script Controller file split.
-- [ ] Script Controller Tests.
-- [ ] Script Controller Getter/Setters.
+- [ ] Script File build in scripts provided by factory.
+- [ ] Script File Getter/Setters.
+- [ ] Script File Parallel Compilation.
+- [ ] Script File Tests.
+- [ ] Script Folder Getters/Setters.
+- [ ] Script Folder scam dir.
+- [ ] Script Folder Operations.
+- [ ] Script MACRO.
 - [ ] Usage Docs.
 - [ ] About Docs.
 - [ ] Unit Tests.

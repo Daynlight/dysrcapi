@@ -5,25 +5,25 @@
 
 
 
-#include "dysrcapi.h"
+#include "script_file.h"
 
 
 
 // =========================================
-// ============== ScriptRecord =============
+// ============== ScriptFile =============
 // =========================================
 // =============================
 // === Constructors ============
 // =============================
 // core
 template<typename T>
-inline MC::ScriptRecord<T>::ScriptRecord() {
+inline DST::ScriptFile<T>::ScriptFile() {
 };
 
 
 
 template<typename T>
-inline MC::ScriptRecord<T>::ScriptRecord(const std::string& name, const std::filesystem::path& cpp_folder, const std::filesystem::path& so_folder)
+inline DST::ScriptFile<T>::ScriptFile(const std::string& name, const std::filesystem::path& cpp_folder, const std::filesystem::path& so_folder)
   : path_cpp(cpp_folder / name), 
 #ifdef WIN32
     path_so(so_folder / (name + ".dll"))
@@ -36,7 +36,7 @@ inline MC::ScriptRecord<T>::ScriptRecord(const std::string& name, const std::fil
 
 
 template<typename T>
-inline MC::ScriptRecord<T>::~ScriptRecord() {
+inline DST::ScriptFile<T>::~ScriptFile() {
   removeModule();
 };
 
@@ -44,7 +44,7 @@ inline MC::ScriptRecord<T>::~ScriptRecord() {
 
 // move
 template<typename T>
-inline MC::ScriptRecord<T>::ScriptRecord(ScriptRecord &&second)
+inline DST::ScriptFile<T>::ScriptFile(ScriptFile &&second)
   : path_cpp(std::move(second.path_cpp)),
     path_so(std::move(second.path_so)),
     last_time_write(std::move(second.last_time_write)),
@@ -59,7 +59,7 @@ inline MC::ScriptRecord<T>::ScriptRecord(ScriptRecord &&second)
 
 
 template<typename T>
-inline MC::ScriptRecord<T> &MC::ScriptRecord<T>::operator=(ScriptRecord &&second) {
+inline DST::ScriptFile<T> &DST::ScriptFile<T>::operator=(ScriptFile &&second) {
   if(this == &second) return *this;
 
   removeModule();
@@ -84,7 +84,7 @@ inline MC::ScriptRecord<T> &MC::ScriptRecord<T>::operator=(ScriptRecord &&second
 // === Getters/Setters =========
 // =============================
 template <typename T>
-inline void MC::ScriptRecord<T>::setCppPath(const std::filesystem::path &path){
+inline void DST::ScriptFile<T>::setCppPath(const std::filesystem::path &path){
   if(path_cpp == path) return;
   path_cpp = path;
   updateModule();
@@ -93,14 +93,14 @@ inline void MC::ScriptRecord<T>::setCppPath(const std::filesystem::path &path){
 
 
 template <typename T>
-inline std::filesystem::path MC::ScriptRecord<T>::getCppPath() const {
+inline std::filesystem::path DST::ScriptFile<T>::getCppPath() const {
   return path_cpp;
 };
 
 
 
 template <typename T>
-inline void MC::ScriptRecord<T>::setSoPath(const std::filesystem::path &path){
+inline void DST::ScriptFile<T>::setSoPath(const std::filesystem::path &path){
   if(path_so == path) return;
   path_so = path;
   updateModule();
@@ -109,35 +109,35 @@ inline void MC::ScriptRecord<T>::setSoPath(const std::filesystem::path &path){
 
 
 template <typename T>
-inline bool MC::ScriptRecord<T>::getScriptHandlerIsValid() const {
+inline bool DST::ScriptFile<T>::getScriptHandlerIsValid() const {
   return script_handler != nullptr;
 };
 
 
 
 template <typename T>
-inline std::filesystem::path MC::ScriptRecord<T>::getSoPath() const {
+inline std::filesystem::path DST::ScriptFile<T>::getSoPath() const {
   return path_so;
 };
 
 
 
 template <typename T>
-inline int MC::ScriptRecord<T>::getNextAvailableIndex() const {
+inline int DST::ScriptFile<T>::getNextAvailableIndex() const {
   return next_available_index;
 };
 
 
 
 template <typename T>
-inline std::filesystem::file_time_type MC::ScriptRecord<T>::getLastTimeWrite() const {
+inline std::filesystem::file_time_type DST::ScriptFile<T>::getLastTimeWrite() const {
   return last_time_write;
 };
 
 
 
 template <typename T>
-inline void MC::ScriptRecord<T>::setCompiler(std::string compiler){
+inline void DST::ScriptFile<T>::setCompiler(std::string compiler){
   if(this->compiler == compiler) return;
   this->compiler = compiler;
   updateModule();
@@ -146,14 +146,14 @@ inline void MC::ScriptRecord<T>::setCompiler(std::string compiler){
 
 
 template <typename T>
-inline std::string MC::ScriptRecord<T>::getCompiler() const {
+inline std::string DST::ScriptFile<T>::getCompiler() const {
   return compiler;
 };
 
 
 
 template <typename T>
-inline void MC::ScriptRecord<T>::setCompileFlags(const std::vector<std::string> &flags){
+inline void DST::ScriptFile<T>::setCompileFlags(const std::vector<std::string> &flags){
   if(compile_flags == flags) return;
   compile_flags = flags;
   updateModule();
@@ -162,7 +162,7 @@ inline void MC::ScriptRecord<T>::setCompileFlags(const std::vector<std::string> 
 
 
 template <typename T>
-inline std::vector<std::string> MC::ScriptRecord<T>::getCompileFlags() const {
+inline std::vector<std::string> DST::ScriptFile<T>::getCompileFlags() const {
   return compile_flags;
 };
 
@@ -172,7 +172,7 @@ inline std::vector<std::string> MC::ScriptRecord<T>::getCompileFlags() const {
 // === Control =================
 // =============================
 template<typename T>
-inline void MC::ScriptRecord<T>::observe() {
+inline void DST::ScriptFile<T>::observe() {
   if(checkLastWrite()) {
     updateModule();
   };
@@ -181,7 +181,7 @@ inline void MC::ScriptRecord<T>::observe() {
 
 
 template<typename T>
-inline void MC::ScriptRecord<T>::updateModule() {
+inline void DST::ScriptFile<T>::updateModule() {
   removeModule();
 
   if(compile() != 0) {
@@ -194,7 +194,7 @@ inline void MC::ScriptRecord<T>::updateModule() {
 
 
 template<typename T>
-inline T* MC::ScriptRecord<T>::get(int index) {
+inline T* DST::ScriptFile<T>::get(int index) {
   if(!script_handler) loadModule();
   if(!script_handler){
     return nullptr;
@@ -216,7 +216,7 @@ inline T* MC::ScriptRecord<T>::get(int index) {
 
 
 template <typename T>
-inline int MC::ScriptRecord<T>::create(){
+inline int DST::ScriptFile<T>::create(){
   if(!script_handler) loadModule();
   if(!script_handler){
     return -1;
@@ -258,7 +258,7 @@ inline int MC::ScriptRecord<T>::create(){
 
 
 template <typename T>
-inline int MC::ScriptRecord<T>::create(int index){
+inline int DST::ScriptFile<T>::create(int index){
   const auto& id = instances.find(index);
   if(id != instances.end()) {
     return -1;
@@ -304,7 +304,7 @@ inline int MC::ScriptRecord<T>::create(int index){
 
 
 template <typename T>
-inline void MC::ScriptRecord<T>::destroy(int index){
+inline void DST::ScriptFile<T>::destroy(int index){
   const auto& id = instances.find(index);
   if(id == instances.end()){
     return;
@@ -353,7 +353,7 @@ inline void MC::ScriptRecord<T>::destroy(int index){
 // === Helpers =================
 // =============================
 template<typename T>
-inline bool MC::ScriptRecord<T>::checkLastWrite() {
+inline bool DST::ScriptFile<T>::checkLastWrite() {
   bool file_exist = std::filesystem::exists(path_cpp);
   bool changed = 0;
 
@@ -380,7 +380,7 @@ inline bool MC::ScriptRecord<T>::checkLastWrite() {
 
 
 template<typename T>
-inline int MC::ScriptRecord<T>::loadModule() {
+inline int DST::ScriptFile<T>::loadModule() {
   removeModule();
 
   bool file_exist = std::filesystem::exists(path_so);
@@ -431,7 +431,7 @@ inline int MC::ScriptRecord<T>::loadModule() {
 
 
 template<typename T>
-inline void MC::ScriptRecord<T>::removeModule() {
+inline void DST::ScriptFile<T>::removeModule() {
   if (!script_handler) {
     instances.clear();
     return;
@@ -484,7 +484,7 @@ inline void MC::ScriptRecord<T>::removeModule() {
 
 
 template<typename T>
-inline int MC::ScriptRecord<T>::compile() {
+inline int DST::ScriptFile<T>::compile() {
   if (compiler.empty()) {
     return 0;
   }
@@ -563,228 +563,4 @@ inline int MC::ScriptRecord<T>::compile() {
 
   return -1;
 #endif
-};
-
-
-
-
-
-// =========================================
-// ============== ScriptInstance ===========
-// =========================================
-// =============================
-// === Constructors ============
-// =============================
-// core
-template <typename T>
-inline MC::ScriptInstance<T>::ScriptInstance(MC::ScriptRecord<T>* record)
-  : record(record) {
-  create();
-};
-
-
-
-template <typename T>
-inline MC::ScriptInstance<T>::~ScriptInstance(){
-  destroy();
-};
-
-
-
-// copy
-template <typename T>
-inline MC::ScriptInstance<T>::ScriptInstance(const ScriptInstance<T> &second) 
-  : record(second.record) {
-  create();
-};
-
-
-
-template <typename T>
-inline MC::ScriptInstance<T> &MC::ScriptInstance<T>::operator=(const ScriptInstance<T> &second){
-  if(this == &second) return *this;
-
-  destroy();
-  record = second.record;
-  create();
-
-  return *this;
-};
-
-
-
-// move
-template <typename T>
-inline MC::ScriptInstance<T>::ScriptInstance(ScriptInstance<T>&& second) 
-  : record(std::move(second.record)),
-    index(std::move(second.index)) {
-  second.record = nullptr;
-  second.index = -1;
-};
-
-
-
-template <typename T>
-inline MC::ScriptInstance<T> &MC::ScriptInstance<T>::operator=(ScriptInstance<T>&& second){
-  if(this == &second) return *this;
-
-  destroy();
-  record = second.record;
-  index = second.index;
-  second.index = -1;
-  second.record = nullptr;
-
-  return *this;
-};
-
-
-
-// =============================
-// === Getters/Setters =========
-// =============================
-template <typename T>
-inline T *MC::ScriptInstance<T>::get(){
-  if(!record){
-    return nullptr;  
-  };
-
-  if(index < 0) create();
-  if(index < 0){
-    return nullptr;
-  };
-  
-  return record->get(index);
-};
-
-
-
-template <typename T>
-inline void MC::ScriptInstance<T>::setRecord(MC::ScriptRecord<T> *record){
-  if(this->record == record) return;
-
-  destroy();
-  this->record = record;
-  create();
-};
-
-
-
-// =============================
-// === Helpers =================
-// =============================
-template <typename T>
-inline void MC::ScriptInstance<T>::create() {
-  if(index >= 0){
-    return;
-  };
-  
-  if(!record){
-    index = -1;
-    return;
-  };
-
-  index = record->create();
-};
-
-
-
-template <typename T>
-inline void MC::ScriptInstance<T>::destroy(){
-  if(index < 0){
-    return;
-  };
-  
-  if(!record){
-    index = -1;
-    return;
-  };
-
-  record->destroy(index);
-  index = -1;
-};
-
-
-
-
-
-
-// =========================================
-// ============ ScriptController ===========
-// =========================================
-// =============================
-// === Constructors ============
-// =============================
-// core
-template<typename T>
-inline MC::ScriptController<T>::ScriptController(const std::filesystem::path& cpp_folder, const std::filesystem::path& so_folder) 
-  : cpp_folder(cpp_folder),
-    so_folder(so_folder) {};
-
-
-
-template<typename T>
-inline MC::ScriptController<T>::~ScriptController() {
-  for(std::pair<const std::string, MC::ScriptRecord<T>*>& el : scripts)
-    delete el.second;
-  scripts.clear();
-};
-
-
-
-// =============================
-// === Control =================
-// =============================
-template<typename T>
-inline void MC::ScriptController<T>::add(const std::string& name) {
-  bool exists = exist(name);
-  if(exists) {
-    scripts[name]->updateModule();
-    return;
-  };
-  scripts[name] = new MC::ScriptRecord<T>(name, cpp_folder, so_folder);
-};
-
-
-
-template<typename T>
-inline bool MC::ScriptController<T>::exist(const std::string& name) {
-  const auto& it = scripts.find(name);
-  if(it == scripts.end()) return false;
-  return true;
-};
-
-
-
-template<typename T>
-inline void MC::ScriptController<T>::erase(const std::string& name) {
-  delete scripts[name];
-  scripts.erase(name);
-};
-
-
-
-template<typename T>
-inline void MC::ScriptController<T>::clear(){
-  for(std::pair<const std::string, MC::ScriptRecord<T>*>& el : scripts)
-    delete el.second;
-  scripts.clear();
-};
-
-
-
-template <typename T>
-inline void MC::ScriptController<T>::observe() {
-  for(std::pair<const std::string, MC::ScriptRecord<T>*>& el : scripts) el.second->observe();
-};
-
-
-
-template<typename T>
-inline MC::ScriptRecord<T>* MC::ScriptController<T>::get(const std::string& name) {
-  bool exists = exist(name);
-  if(!exists){
-    add(name);
-  };
-
-  return scripts[name];
 };
