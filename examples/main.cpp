@@ -21,11 +21,11 @@ int main(){
   fmt::println(fg(fmt::color::yellow) | fmt::emphasis::bold, "==== Dysrcapi Examples ====");
   fmt::println(fg(fmt::color::yellow) | fmt::emphasis::bold, "===========================");
   
-  MC::ScriptController<IScript> controller(std::filesystem::path(__FILE__).parent_path() / "scripts/", std::filesystem::path(__FILE__).parent_path() / "scripts" / "DLL" );
+  DST::ScriptFolder<IScript> controller(std::filesystem::path(__FILE__).parent_path() / "scripts/", std::filesystem::path(__FILE__).parent_path() / "scripts" / "DLL" );
 
   controller.add("Test.cpp");
 
-  MC::ScriptInstance<IScript> inst(controller.get("Test.cpp"));
+  DST::ScriptInstance<IScript> inst(controller.get("Test.cpp"));
 
   inst.get()->exec();
 

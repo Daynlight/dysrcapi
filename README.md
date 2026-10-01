@@ -146,8 +146,10 @@ Project is split into sub libraries connected to ```App```.
 <details open>
 <summary>(Prototype) Iteration 2. Script Controller clean up and refactor</summary>
 
+- [x] Script Controller file split.
+- [x] Update Naming.
+- [x] Update Namespace.
 - [ ] Script Controller build in scripts provided by factory.
-- [ ] Script Controller file split.
 - [ ] Script Controller Tests.
 - [ ] Script Controller Getter/Setters.
 - [ ] Usage Docs.
